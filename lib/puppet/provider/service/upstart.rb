@@ -184,7 +184,7 @@ private
     # So we check to see if an uncommented start on or manual stanza is the last one in the file
     # The last one in the file wins.
     enabled = :false
-    script_text.each do |line|
+    script_text.each_line do |line|
       if line.match(START_ON)
         enabled = :true
       elsif line.match(MANUAL)
@@ -200,14 +200,14 @@ private
     # conf file and any override files. The last one in the file wins.
     enabled = :false
 
-    script_text.each do |line|
+    script_text.each_line do |line|
       if line.match(START_ON)
         enabled = :true
       elsif line.match(MANUAL)
         enabled = :false
       end
     end
-    over_text.each do |line|
+    over_text.each_line do |line|
       if line.match(START_ON)
         enabled = :true
       elsif line.match(MANUAL)
