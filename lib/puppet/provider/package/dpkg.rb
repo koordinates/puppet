@@ -66,6 +66,13 @@ Puppet::Type.type(:package).provide :dpkg, :parent => Puppet::Provider::Package 
       raise ArgumentError, "You cannot install dpkg packages without a source"
     end
 
+    # HACK: puppet normally calls install() regardless, but apt-get on trusty seems to 
+    # remove the hold and install the *latest* version if we do that!
+    # So, we only install if it's not already installed.
+    if self.query()[:status] != 'missing'
+      return
+    end
+
     args = []
 
     # We always unhold when installing to remove any prior hold.
